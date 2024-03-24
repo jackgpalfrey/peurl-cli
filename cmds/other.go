@@ -2,7 +2,9 @@ package cmds
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
 	"text/tabwriter"
 
 	"github.com/jackgpalfrey/peurl-cli/utils"
@@ -24,10 +26,28 @@ func Domain(args []string) {
 	utils.CheckVersionCompat()
 }
 
+func Update() {
+	err := exec.Command("sh", "-c", "curl -s https://raw.githubusercontent.com/jackgpalfrey/peurl-cli/master/bin/install.sh | sh").Run()
+	if err != nil {
+		log.Fatal("Failed to update, please try again as root")
+	}
+	fmt.Println("Updated")
+}
+
+func Uninstall() {
+	err := exec.Command("rm", "/usr/bin/peurl").Run()
+	if err != nil {
+		log.Fatal("Failed to uninstall, please try again as root")
+	}
+	fmt.Println("Uninstalled")
+}
+
 func Help() {
 	w := tabwriter.NewWriter(os.Stdout, 1, 1, 4, ' ', 0)
 	fmt.Println("AVAILABLE SUBCOMMANDS:")
 	fmt.Fprintln(w, "\thelp\tThis help page")
+	fmt.Fprintln(w, "\tupdate\tUpdate to the latest cli version (Requires sudo)")
+	fmt.Fprintln(w, "\tuninstall\tUninstall the peurl cli (Requires sudo)")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "CONFIGURATION")
 	fmt.Fprintln(w, "\tdomain\tGet or set the url of peurl server")

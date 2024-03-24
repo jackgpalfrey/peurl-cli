@@ -42,6 +42,10 @@ func main() {
 		cmds.UrlDelete(subArgs)
 	case "list", "ls":
 		cmds.UrlList(subArgs)
+	case "update":
+		cmds.Update()
+	case "uninstall":
+		cmds.Uninstall()
 	default:
 		fmt.Printf("Invalid subcommand '%s'\n", subCommand)
 	}
