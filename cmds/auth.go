@@ -2,7 +2,6 @@ package cmds
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/jackgpalfrey/peurl-cli/utils"
@@ -46,8 +45,5 @@ func Logout(args []string) {
 }
 
 func Whoami() {
-	url := utils.GetURL("/whoami")
-	res := utils.SendAuthedRequest("GET", url, nil)
-	body, _ := io.ReadAll(res.Body)
-	fmt.Println(string(body))
+	fmt.Println(utils.Whoami())
 }

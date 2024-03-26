@@ -71,4 +71,7 @@ func Help() {
 	fmt.Fprintln(w, "\t├─delete / rm\tDelete a user (Requires admin)")
 	fmt.Fprintln(w, "\t└─passwd\tChange a user's password (Requires admin or same user)")
 	w.Flush()
+	fmt.Println("")
+	utils.CheckVersionCompat()
+	fmt.Println("Connected to peurl server at", utils.Blue+utils.GetDomain(), utils.Reset+"as"+utils.Red, utils.Whoami()+utils.Reset)
 }

@@ -30,7 +30,7 @@ func main() {
 		cmds.Whoami()
 	case "user":
 		cmds.User(subArgs)
-	case "shorten":
+	case "shorten", "s", "new":
 		cmds.UrlShorten(subArgs)
 	case "go":
 		cmds.UrlGo(subArgs)

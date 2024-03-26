@@ -29,7 +29,8 @@ func GetURL(path string) string {
 }
 
 func SetDomain(url string) {
-	if url[:7] != "http://" && url[:8] != "https://" {
+	urlLen := len(url)
+	if !((urlLen > 7 && url[:8] == "https://") || (urlLen > 6 && url[:7] == "http://")) {
 		url = "https://" + url
 	}
 
@@ -137,7 +138,7 @@ func OpenURL(url string) {
 func CheckVersionCompat() {
 	res := SendAuthedRequest("GET", GetURL("/version"), nil)
 	if res.StatusCode != 200 {
-		ExitWithError("Failed to check server version", nil)
+		ExitWithError("Unable to connect to domain "+GetDomain(), nil)
 	}
 	body, _ := io.ReadAll(res.Body)
 	serverVersion := string(body)
@@ -146,4 +147,11 @@ func CheckVersionCompat() {
 	if versionNum[:3] != config.VERSION[:3] {
 		ExitWithError("Incompatible server version: "+serverVersion, nil)
 	}
+}
+
+func Whoami() string {
+	url := GetURL("/whoami")
+	res := SendAuthedRequest("GET", url, nil)
+	body, _ := io.ReadAll(res.Body)
+	return string(body)
 }
